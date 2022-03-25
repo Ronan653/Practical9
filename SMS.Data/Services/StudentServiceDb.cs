@@ -249,16 +249,30 @@ namespace SMS.Data.Services
         public User Register(string name, string email, string password, Role role)
         {
             // check that the user does not already exist (unique user name)
-            
+            var exists = GetUserByEmail(email);
+            if (exists != null)
+            {
+                return null;
+
+            }
 
             // Use Custom Hasher used to encrypt the password before storing in database
-           
+            var user = new User {
+                Name = name,
+                Email = email,
+                Password = Hasher.CalculateHash(password),
+                Role = role
+
+            };
+
+            db.Users.Add(user);
+            db.SaveChanges();
    
            
-            return null; // replace with created user
+            return user; // replace with created user
         }
 
-        public User GetUserByEmail(string email)
+        public User GetUserByEmail(string email)    
         {
             return db.Users.FirstOrDefault(u => u.Email == email);
         }

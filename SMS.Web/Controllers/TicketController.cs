@@ -17,6 +17,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET /ticket/index
+        [Authorize]
         public IActionResult Index()
         {
             var tickets = svc.GetOpenTickets();

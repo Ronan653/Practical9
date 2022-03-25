@@ -19,6 +19,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET /student
+        [Authorize]
         public IActionResult Index()
         {
             // complete this method
@@ -46,7 +47,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET: /student/create
-       
+        [Authorize(Roles="admin")]
         public IActionResult Create()
         {   
             // display blank form to create a student
@@ -56,7 +57,7 @@ namespace SMS.Web.Controllers
         // POST /student/create
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
+        [Authorize(Roles="admin")]
         public IActionResult Create([Bind("Name, Email, Course, Age, Grade, PhotoUrl")]  Student s)
         {
             // check email is unique for this student
@@ -81,7 +82,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET /student/edit/{id}
-        
+        [Authorize(Roles="admin, manager")]
         public IActionResult Edit(int id)
         {        
             // load the student using the service
@@ -101,7 +102,7 @@ namespace SMS.Web.Controllers
         // POST /student/edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
+        [Authorize(Roles="admin, manager")]
         public IActionResult Edit(int id, [Bind("Id, Name, Email, Course, Age, Grade, PhotoUrl")] Student s)
         {
             // check email is unique for this student  
@@ -125,7 +126,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET / student/delete/{id}
-            
+        [Authorize(Roles="admin")]    
         public IActionResult Delete(int id)
         {       
             // load the student using the service
@@ -144,7 +145,7 @@ namespace SMS.Web.Controllers
 
         // POST /student/delete/{id}
         [HttpPost]
-        
+        [Authorize(Roles="admin")]
         [ValidateAntiForgeryToken]              
         public IActionResult DeleteConfirm(int id)
         {
@@ -160,6 +161,7 @@ namespace SMS.Web.Controllers
         // ============== Student ticket management ==============
 
         // GET /student/createticket/{id}
+        [Authorize]
         public IActionResult TicketCreate(int id)
         {     
             var s = svc.GetStudent(id);
@@ -177,6 +179,7 @@ namespace SMS.Web.Controllers
         }
 
         // POST /student/create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult TicketCreate([Bind("StudentId, Issue")] Ticket t)
@@ -192,6 +195,7 @@ namespace SMS.Web.Controllers
         }
 
         // GET /student/ticketdelete/{id}
+        [Authorize]
         public IActionResult TicketDelete(int id)
         {
             // load the ticket using the service
@@ -208,6 +212,7 @@ namespace SMS.Web.Controllers
         }
 
         // POST /student/ticketdeleteconfirm/{id}
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult TicketDeleteConfirm(int id, int studentId)

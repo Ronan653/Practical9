@@ -56,15 +56,26 @@ namespace SMS.Web.Controllers
         public IActionResult Register(UserRegisterViewModel m)
         {
             // check if email address is already in use - replaced by use of remote validator in UserRegisterViewModel
-            
+            var exists = _svc.GetUserByEmail(m.Email);
+            if (exists != null)
+            {
+                ModelState.AddModelError(nameof(m.Email), "Thew email address is already in use");
+            }
 
             // check validation
-            
+            if (ModelState.IsValid)
+            {
+                // register user
+                _svc.Register(m.Name, m.Email, m.Password, m.Role);
+                Alert("User Registered", AlertType.success);
 
-            // register user
-           
-            // registration successful now alert and redirect to login page
-            return RedirectToAction(nameof(Login));
+                // registration successful now alert and redirect to login page
+                return RedirectToAction(nameof(Login));
+
+            }
+
+            return View(m);
+
         }
 
         [HttpPost]

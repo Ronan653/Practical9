@@ -51,6 +51,11 @@ namespace SMS.Data.Services
             svc.AddStudentToModule(s4.Id, m1.Id, 71);
             svc.AddStudentToModule(s4.Id, m2.Id, 79);
             svc.AddStudentToModule(s4.Id, m3.Id, 69);
+            
+            // Default users
+            svc.Register("Administrator", "admin@mail.com", "admin", Models.Role.admin);
+            svc.Register("Manager", "manager@mail.com", "manager", Models.Role.manager);
+            svc.Register("guest", "guest@mail.com", "guest", Models.Role.guest);
         }
     }
 }
